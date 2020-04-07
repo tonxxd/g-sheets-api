@@ -1,16 +1,13 @@
+import axios from 'axios';
 
 const gsheetsAPI = function(sheetId) {
 
     try {
       const sheetsUrl = `https://spreadsheets.google.com/feeds/cells/${sheetId}/1/public/values?alt=json-in-script`;
 
-      return fetch(sheetsUrl)
+      return axios.get(sheetsUrl)
       .then(response => {
-        if(!response.ok) {
-          throw new Error('Error fetching sheet');
-        }
-
-        return response.text();
+        return response.data;
       })
       .then(resultText => {
         const formattedText = resultText.replace('gdata.io.handleScriptLoaded(','').slice(0, -2);
